@@ -1,3 +1,4 @@
 node_modules
 config.example.js
+config.js
 .DS_Store
