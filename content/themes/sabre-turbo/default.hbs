@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<!-- Waht are you trying to find here? -->
+<html>
+  <head>
+    <title>Technogeek Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel='shortcut icon' href='https://s3.amazonaws.com/technogeek/img/tg.ico' type='image/x-icon' />
+    <link rel='stylesheet' href='https://s3.amazonaws.com/technogeek/css/bootstrap.min.css'/>
+    <link rel='stylesheet' href='https://s3.amazonaws.com/technogeek/css/bootstrap-theme.min.css'/>
+    <link rel='stylesheet' href='https://s3.amazonaws.com/technogeek/css/style.css'/>
+    <link rel="stylesheet" type="text/css" href="{{asset "css/style.css"}}" />
+    <link rel="stylesheet" media="(min-width: 750px)" type="text/css" href="{{asset "css/font.css"}}" />
+  </head>
+  <body>
+    <div class="sub-body">
+    <div class="navbar navbar-default" role="havigation">
+      <div class="row">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#site-navbar">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand visible-xs-block" href="/">{{@blog.title}}</a>
+            <a class="navbar-brand page-title hidden-xs" href="/">{{@blog.title}}</a>
+          </div>
+            <div class="collapse navbar-collapse" id="site-navbar">
+                <ul class="nav nav-pills pull-right">
+                    <li >
+                      <a href="http://technogeek.io">
+                        Home
+                      </a>
+                    </li>
+                 <li >
+                      <a href="https://area51.technogeek.io">
+                        Area 51
+                      </a>
+                    </li>
+                  <li class="active" >
+                      <a href="http://blog.technogeek.io">
+                        Blog
+                      </a>
+                    </li>
+                  <li>
+                      <a href="https://github.com/kalambet">
+                        GitHub
+                      </a>
+                  </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      </div>
+        <div class="content">
+            {{{body}}}
+        </div>
+    </div>
+  <!-- Seriously, what are you trying to find here, man? -->
+  <script src="https://s3.amazonaws.com/technogeek/js/jquery-1.11.2.min.js"></script>
+  <script src="https://s3.amazonaws.com/technogeek/js/bootstrap.min.js"></script>
+  <script>
+    //Stack menu when collapsed
+    $('#site-navbar').on('show.bs.collapse', function() {
+        $('.nav-pills').addClass('nav-stacked');
+    });
+
+    //Unstack menu when not collapsed
+    $('#site-navbar').on('hidden.bs.collapse', function() {
+        $('.nav-pills').removeClass('nav-stacked');
+    });
+  </script>
+  <!-- Yandex.Metrika counter --><script type="text/javascript"> (function (d, w, c) { (w[c] = w[c] || []).push(function() { try { w.yaCounter30785298 = new Ya.Metrika({ id:30785298, clickmap:true, trackLinks:true, accurateTrackBounce:true }); } catch(e) { } }); var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () { n.parentNode.insertBefore(s, n); }; s.type = "text/javascript"; s.async = true; s.src = "https://mc.yandex.ru/metrika/watch.js"; if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); } })(document, window, "yandex_metrika_callbacks");</script><noscript><div><img src="https://mc.yandex.ru/watch/30785298" style="position:absolute; left:-9999px;" alt="" /></div></noscript><!-- /Yandex.Metrika counter -->
+  </body>
+  <footer>
+  <h5 class="text-muted text-center">powered by power</h5>
+  <h5 class="text-muted text-center"><a href="https://technogeek.uservoice.com" rel="publisher">Support</a></h5>
+  </footer>
+</html>

@@ -1,0 +1,14 @@
+{{!< default}}
+
+{{#foreach posts}}
+<div class="date text-muted text-left">{{date published_at format="D MMMM YYYY"}}</div>
+<h1 class="post-title"><a href="{{url}}">{{{title}}}</a></h1>
+<div class="text-justify">
+{{content}}
+</div>
+<div class="tags-line text-muted text-left">категории: {{tags}}</div>
+<div class="page-header"></div>
+{{/foreach}}
+<div class="text-center">
+{{pagination}}
+</div>

@@ -1,0 +1,10 @@
+applications:
+- services:
+  - ElephantSQL-lq
+  disk_quota: 1024M
+  host: technogeek
+  name: technogeek
+  path: .
+  domain: mybluemix.net
+  instances: 1
+  memory: 256M
