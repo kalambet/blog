@@ -8,7 +8,8 @@ var path = require('path'),
 var appPort = (process.env.PORT || 2368);
 var appDataBase = (process.env.DATABASE_URL || "postgresql://localhost/peter");
 var mailUser = (process.env.MAIL_USER || 'test');
-var mailPass = (process.env.MAIL_PASS || 'test')
+var mailPass = (process.env.MAIL_PASS || 'test');
+var appHostUrl = (process.env.HOST_URL || 'http://localhost:' + appPort);
 var env = process.env.NODE_ENV || 'development';
 
 config = {
@@ -16,7 +17,7 @@ config = {
     // When running Ghost in the wild, use the production environment
     // Configure your URL and mail settings here
     production: {
-        url: 'http://blog.technogeek.io',
+        url: appHostUrl,
         mail: {
             transport: 'SMTP',
             host: 'smtp.mandrillapp.com',
@@ -30,12 +31,8 @@ config = {
             }
         },
         database: {
-            client: 'pg',
+            client: 'postgres',
             connection: appDataBase,
-            pool: {
-                min: 2,
-                max: 4
-            },
             debug: false
         },
 
