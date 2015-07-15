@@ -3,17 +3,18 @@
 // Documentation can be found at http://support.ghost.org/config/
 
 var path = require('path'),
-    config,
-    dbURI;
+    config;
 
-var appHost = (process.env.VCAP_APP_HOST || 'localhost');
-var appPort = (process.env.VCAP_APP_PORT || 2368);
+var appHost = (process.env.HOST || 'localhost');
+var appPort = (process.env.PORT || 2368);
+var appDataBase = (process.env.DATABASE_URL || "postgresql://localhost/peter");
 
-if(process.env.VCAP_SERVICES) {
-    var services = JSON.parse(process.env.VCAP_SERVICES);
-    dbURI = services.elephantsql[0].credentials.uri;
-} else {
-    dbURI = "postgresql://localhost/peter";
+var appMailCreds = {
+  user: 'test',
+  pass: 'test'
+}
+if(process.env.MAIL_CREDS) {
+  appMailCreds = JSON.parse(process.env.MAIL_CREDS);
 }
 
 var env = process.env.NODE_ENV || 'development';
@@ -30,15 +31,12 @@ config = {
             port: 587,
             options: {
                 service: 'Mandrill',
-                auth:{
-                    user: 'kalambet',
-                    pass: 'RbQoXlhnJLb4zr2DEomvYw'
-                }
+                auth: appMailCreds
             }
         },
         database: {
             client: 'pg',
-            connection: dbURI,
+            connection: appDataBase,
             pool: {
                 min: 2,
                 max: 4
@@ -64,15 +62,12 @@ config = {
             port: 587,
             options: {
                 service: 'Mandrill',
-                auth:{
-                    user: 'kalambet',
-                    pass: 'RbQoXlhnJLb4zr2DEomvYw'
-                }
+                auth: appMailCreds
             }
         },
         database: {
             client: 'pg',
-            connection: dbURI,
+            connection: appDataBase,
             pool: {
                 min: 2,
                 max: 4
