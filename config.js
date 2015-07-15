@@ -5,7 +5,6 @@
 var path = require('path'),
     config;
 
-var appHost = (process.env.HOST || 'localhost');
 var appPort = (process.env.PORT || 2368);
 var appDataBase = (process.env.DATABASE_URL || "postgresql://localhost/peter");
 var mailUser = (process.env.MAIL_USER || 'test');
@@ -42,7 +41,7 @@ config = {
 
         server: {
             // Host to be passed to node's `net.Server#listen()`
-            host: '',
+            host: '0.0.0.0',
             // Port to be passed to node's `net.Server#listen()`, for iisnode set this to `process.env.PORT`
             port: appPort
         },
@@ -75,7 +74,7 @@ config = {
         },
         server: {
             host: '127.0.0.1',
-            port: '2368'
+            port: appPort
         },
         paths: {
             contentPath: path.join(__dirname, '/content/')
