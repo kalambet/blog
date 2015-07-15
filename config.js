@@ -8,15 +8,8 @@ var path = require('path'),
 var appHost = (process.env.HOST || 'localhost');
 var appPort = (process.env.PORT || 2368);
 var appDataBase = (process.env.DATABASE_URL || "postgresql://localhost/peter");
-
-var appMailCreds = {
-  user: 'test',
-  pass: 'test'
-}
-if(process.env.MAIL_CREDS) {
-  appMailCreds = JSON.parse(process.env.MAIL_CREDS);
-}
-
+var mailUser = (process.env.MAIL_USER || 'test');
+var mailPass = (process.env.MAIL_PASS || 'test')
 var env = process.env.NODE_ENV || 'development';
 
 config = {
@@ -31,7 +24,10 @@ config = {
             port: 587,
             options: {
                 service: 'Mandrill',
-                auth: appMailCreds
+                auth: {
+                  user: mailUser,
+                  pass: mailPass
+                }
             }
         },
         database: {
@@ -62,7 +58,10 @@ config = {
             port: 587,
             options: {
                 service: 'Mandrill',
-                auth: appMailCreds
+                auth: {
+                  user: mailUser,
+                  pass: mailPass
+                }
             }
         },
         database: {
