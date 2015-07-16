@@ -3,13 +3,23 @@
 // Documentation can be found at http://support.ghost.org/config/
 
 var path = require('path'),
-    config;
+    config,
+    appDatabaseURI;
 
-var appPort = (process.env.PORT || 2368);
-var appDataBase = (process.env.DATABASE_URL || "postgresql://localhost/peter");
-var mailUser = (process.env.MAIL_USER || 'test');
-var mailPass = (process.env.MAIL_PASS || 'test');
-var appHostUrl = (process.env.HOST_URL || 'http://localhost:' + appPort);
+var appHost = (process.env.VCAP_APP_HOST || 'localhost');
+var appPort = (process.env.VCAP_APP_PORT || 2368);
+var appUrl = (process.env.APP_URL || 'http://localhost:' + appPort);
+
+var mailUsername = (process.env.MAIL_USER || 'test');
+var mailPassword = (process.env.MAIL_PASS || 'test');
+
+if(process.env.VCAP_SERVICES) {
+    var services = JSON.parse(process.env.VCAP_SERVICES);
+    appDatabaseURI = services.elephantsql[0].credentials.uri;
+} else {
+    appDatabaseURI = "postgresql://localhost/peter";
+}
+
 var env = process.env.NODE_ENV || 'development';
 
 config = {
@@ -17,28 +27,32 @@ config = {
     // When running Ghost in the wild, use the production environment
     // Configure your URL and mail settings here
     production: {
-        url: appHostUrl,
+        url: appUrl,
         mail: {
             transport: 'SMTP',
             host: 'smtp.mandrillapp.com',
             port: 587,
             options: {
                 service: 'Mandrill',
-                auth: {
-                  user: mailUser,
-                  pass: mailPass
+                auth:{
+                    user: mailUsername,
+                    pass: mailPassword
                 }
             }
         },
         database: {
             client: 'postgres',
-            connection: appDataBase,
+            connection: appDatabaseURI,
+            pool: {
+                min: 1,
+                max: 5
+            },
             debug: false
         },
 
         server: {
             // Host to be passed to node's `net.Server#listen()`
-            host: '0.0.0.0',
+            host: appHost,
             // Port to be passed to node's `net.Server#listen()`, for iisnode set this to `process.env.PORT`
             port: appPort
         },
@@ -47,22 +61,22 @@ config = {
 
     // ### Development **(default)**
     development: {
-        url: 'http://localhost:2368',
+        url: appUrl,
         mail: {
             transport: 'SMTP',
             host: 'smtp.mandrillapp.com',
             port: 587,
             options: {
                 service: 'Mandrill',
-                auth: {
-                  user: mailUser,
-                  pass: mailPass
+                auth:{
+                    user: mailUsername,
+                    pass: mailPassword
                 }
             }
         },
         database: {
-            client: 'pg',
-            connection: appDataBase,
+            client: 'postgres',
+            connection: appDatabaseURI,
             pool: {
                 min: 2,
                 max: 4
@@ -71,7 +85,7 @@ config = {
         },
         server: {
             host: '127.0.0.1',
-            port: appPort
+            port: '2368'
         },
         paths: {
             contentPath: path.join(__dirname, '/content/')
