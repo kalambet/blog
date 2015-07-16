@@ -1,3 +1,5 @@
 node_modules
 config.example.js
 .DS_Store
+
+slack-curl.sh
