@@ -3,6 +3,7 @@ var Promise     = require('bluebird'),
     models      = require('../../models'),
     errors      = require('../../errors'),
     globalUtils = require('../../utils'),
+    i18n        = require('../../i18n'),
 
     internal    = {context: {internal: true}},
     utils,
@@ -78,7 +79,7 @@ utils = {
                 userMap[userToMap] = existingUsers[owner.email].realId;
             } else {
                 throw new errors.DataImportError(
-                    'Attempting to import data linked to unknown user id ' + userToMap, 'user.id', userToMap
+                    i18n.t('errors.data.import.utils.dataLinkedToUnknownUser', {userToMap: userToMap}), 'user.id', userToMap
                 );
             }
         });
@@ -203,10 +204,10 @@ utils = {
                 }
 
                 return _tag;
-            }));
+            }).reflect());
         });
 
-        return Promise.settle(ops);
+        return Promise.all(ops);
     },
 
     importPosts: function importPosts(tableData, transaction) {
@@ -231,11 +232,11 @@ utils = {
             ops.push(models.Post.add(post, _.extend({}, internal, {transacting: transaction, importing: true}))
                     .catch(function (error) {
                         return Promise.reject({raw: error, model: 'post', data: post});
-                    })
+                    }).reflect()
             );
         });
 
-        return Promise.settle(ops);
+        return Promise.all(ops);
     },
 
     importUsers: function importUsers(tableData, existingUsers, transaction) {
@@ -291,9 +292,9 @@ utils = {
             if (!(error instanceof errors.NotFoundError)) {
                 return Promise.reject({raw: error, model: 'setting', data: tableData});
             }
-        }));
+        }).reflect());
 
-        return Promise.settle(ops);
+        return Promise.all(ops);
     },
 
     /** For later **/
@@ -316,10 +317,10 @@ utils = {
                 }
 
                 return _app;
-            }));
+            }).reflect());
         });
 
-        return Promise.settle(ops);
+        return Promise.all(ops);
     }
 };
 
