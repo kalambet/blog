@@ -30,10 +30,10 @@ config = {
         url: appUrl,
         mail: {
             transport: 'SMTP',
-            host: 'smtp.mandrillapp.com',
+            host: 'smtp.mailgun.org',
             port: 587,
             options: {
-                service: 'Mandrill',
+                service: 'Mailgun',
                 auth:{
                     user: mailUsername,
                     pass: mailPassword
