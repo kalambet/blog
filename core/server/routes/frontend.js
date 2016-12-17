@@ -1,9 +1,9 @@
-var frontend        = require('../controllers/frontend'),
-    channels        = require('../controllers/frontend/channels'),
+var express         = require('express'),
+    path            = require('path'),
     config          = require('../config'),
-    express         = require('express'),
+    frontend        = require('../controllers/frontend'),
+    channels        = require('../controllers/frontend/channels'),
     utils           = require('../utils'),
-    privateBlogging = require('../apps/private-blogging'),
 
     frontendRoutes;
 
@@ -31,11 +31,17 @@ frontendRoutes = function frontendRoutes() {
     // Channels
     router.use(channels.router());
 
+    // setup routes for internal apps
+    // @TODO: refactor this to be a proper app route hook for internal & external apps
+    config.internalApps.forEach(function (appName) {
+        var app = require(path.join(config.paths.internalAppPath, appName));
+        if (app.hasOwnProperty('setupRoutes')) {
+            app.setupRoutes(router);
+        }
+    });
+
     // Default
     router.get('*', frontend.single);
-
-    // @TODO: this can be removed once the proper app route hooks have been set up.
-    privateBlogging.setupRoutes(router);
 
     return router;
 };
